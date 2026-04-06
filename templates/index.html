@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pythonファイル共有</title>
+    <style>
+        body { font-family: sans-serif; background: #f0f2f5; padding: 20px; display: flex; justify-content: center; }
+        .card { background: white; padding: 25px; border-radius: 15px; width: 100%; max-width: 400px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center; }
+        input, button { width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; border: 1px solid #ddd; font-size: 16px; box-sizing: border-box; }
+        button { background: #007bff; color: white; border: none; font-weight: bold; cursor: pointer; }
+        .file-item { background: #eee; padding: 10px; margin: 5px 0; display: flex; justify-content: space-between; align-items: center; border-radius: 5px; }
+        .dl-btn { background: #28a745; color: white; text-decoration: none; padding: 5px 10px; border-radius: 4px; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        {% if view == 'login' %}
+            <h2>ファイル共有アプリ</h2>
+            <form action="/login" method="POST">
+                <input type="password" name="password" placeholder="合言葉を入力" required>
+                <button type="submit">開始 / 入る</button>
+            </form>
+        {% else %}
+            <h2>共有フォルダ</h2>
+            <form action="/upload" method="POST" enctype="multipart/form-data">
+                <input type="file" name="file" required>
+                <button type="submit">アップロード</button>
+            </form>
+            <hr>
+            <h3>ファイル一覧</h3>
+            {% for file in files %}
+                <div class="file-item">
+                    <span>{{ file }}</span>
+                    <a href="/download/{{ file }}" class="dl-btn">保存</a>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</body>
+</html>
